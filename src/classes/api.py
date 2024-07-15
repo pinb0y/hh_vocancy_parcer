@@ -81,11 +81,3 @@ class HhParserApi(ParserApi):
     def _check_status(response: Response) -> bool:
         return response.status_code == 200
 
-
-if __name__ == "__main__":
-    hh = HhParserApi()
-    hh.get_vacancies()
-    # print(hh.vacancies)
-    for vac in hh.vacancies:
-        print(vac["name"])
-    print(len(hh.vacancies))
