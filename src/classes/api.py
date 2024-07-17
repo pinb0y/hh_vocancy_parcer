@@ -80,4 +80,3 @@ class HhParserApi(ParserApi):
     @staticmethod
     def _check_status(response: Response) -> bool:
         return response.status_code == 200
-
