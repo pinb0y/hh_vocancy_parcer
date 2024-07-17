@@ -9,9 +9,6 @@ DATA_PATH = ROOT_PATH.joinpath("data")
 
 DATABASE_PATH = DATA_PATH.joinpath("database.ini")
 
-# путь к JSON файлу с вакансиями
-VACANCIES_JSON_PATH = DATA_PATH.joinpath("vacancies.json")
-
 
 def config(filename=DATABASE_PATH, section="postgresql"):
     # create a parser
