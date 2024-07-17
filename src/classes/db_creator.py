@@ -1,6 +1,7 @@
 import psycopg2
 
-from src.settings import config
+from src.classes.company import Company
+from src.classes.vacancy import HhVacancy
 
 
 class DbCreator:
@@ -14,7 +15,7 @@ class DbCreator:
         conn.autocommit = True
 
         with conn.cursor() as cursor:
-            cursor.execute(f'DROP DATABASE {self.__database_name}')
+            cursor.execute(f'DROP DATABASE IF EXISTS {self.__database_name}')
             cursor.execute(f'CREATE DATABASE {self.__database_name}')
 
         conn.close()
@@ -45,8 +46,28 @@ class DbCreator:
                         """)
         conn.close()
 
+    def save_data_to_db(self, vacancies: list[HhVacancy], companies: list[Company]):
+        """Сохранение данных о вакансиях и компаниях в базу данных."""
 
-if __name__ == "__main__":
-    emp_base = DbCreator("hh", config())
-    emp_base.create_database()
-    emp_base.create_tables()
+        with psycopg2.connect(dbname=self.__database_name, **self.__params) as conn:
+            with conn.cursor() as cur:
+                for company in companies:
+                    cur.execute(
+                        """
+                        INSERT INTO companies (company_id, name, URL)
+                        VALUES (%s, %s, %s)
+                        """,
+                        (company.company_id, company.company_name, company.url)
+                    )
+                for vacancy in vacancies:
+                    cur.execute(
+                        """
+                        INSERT INTO vacancies (vacancy_id, company_id, name, city, URL, 
+                        salary_from, salary_to, requirements)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                        """,
+                        (vacancy.vacancy_id, vacancy.company_id, vacancy.name, vacancy.city, vacancy.link,
+                         vacancy.salary_from, vacancy.salary_to, vacancy.requirements)
+                    )
+
+        conn.close()
