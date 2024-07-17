@@ -132,3 +132,4 @@ dmypy.json
 .idea
 
 companies.txt
+/data/database.ini
