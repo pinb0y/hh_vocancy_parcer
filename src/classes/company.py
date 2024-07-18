@@ -1,11 +1,19 @@
 class Company:
-    def __init__(self, company_id, company_name, url):
+    """
+    Класс для создания объектов компаний
+    """
+    def __init__(self, company_id: str, company_name: str, url: str):
         self.company_id = int(company_id)
         self.company_name = company_name
         self.url = url
 
     @classmethod
-    def make_company_instances_list(cls, data):
+    def make_company_instances_list(cls, data: list[dict]):
+        """
+        Класс метод создает список объектов класса компания
+        :param data: список словарей с компаниями
+        :return: список объектов компаний
+        """
         company_list: list = []
         company_ids = set()
         for company in data:
