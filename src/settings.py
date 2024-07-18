@@ -1,19 +1,21 @@
 import pathlib
 from configparser import ConfigParser
 
-HH_URL = "https://api.hh.ru/vacancies"
 
-ROOT_PATH = pathlib.Path(__file__).parent.parent
+HH_URL = "https://api.hh.ru/vacancies"  # Ссылка для парсинга вакансий
 
-DATA_PATH = ROOT_PATH.joinpath("data")
+ROOT_PATH = pathlib.Path(__file__).parent.parent  # Корневой путь
 
-DATABASE_PATH = DATA_PATH.joinpath("database.ini")
+DATA_PATH = ROOT_PATH.joinpath("data")  # Путь к папки data
+
+DATABASE_PATH = DATA_PATH.joinpath("database.ini")  # Путь к настройкам базы данных
+
+DB_NAME = 'hh'  # Имя базы данных
 
 
-def config(filename=DATABASE_PATH, section="postgresql"):
-    # create a parser
+def config(filename=DATABASE_PATH, section="postgresql") -> dict:
+    # Парсера чтения настроек для базы данных
     parser = ConfigParser()
-    # read config file
     parser.read(filename)
     db = {}
     if parser.has_section(section):
@@ -23,5 +25,4 @@ def config(filename=DATABASE_PATH, section="postgresql"):
     else:
         raise Exception(
             "Section {0} is not found in the {1} file.".format(section, filename))
-
     return db
