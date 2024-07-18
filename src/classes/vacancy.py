@@ -13,12 +13,6 @@ class HhVacancy:
         self.experience = experience
         self.requirements = requirements
 
-    def __lt__(self, other) -> bool:
-        return self.__salary_from < other.__salary_from
-
-    def __gt__(self, other) -> bool:
-        return self.__salary_from > other.__salary_from
-
     @classmethod
     def make_object_list(cls, vacancies: list[dict]) -> list:
         """
@@ -26,33 +20,28 @@ class HhVacancy:
         :param vacancies: Список вакансий из JSON файла
         :return: Список объектов класса вакансия.
         """
-
         vacancies_list: list = []
-        vacancy_ids = set()
         for vacancy in vacancies:
-            if vacancy["id"] not in vacancy_ids:
-                temp: HhVacancy = cls(
-                    vacancy_id=vacancy["id"],
-                    name=vacancy["name"],
-                    link=vacancy["alternate_url"],
-                    company_id=vacancy["employer"]["id"],
-                    salary_from=vacancy["salary"]["from"] if vacancy["salary"] else 0,
-                    salary_to=vacancy["salary"]["to"] if vacancy["salary"] else 0,
-                    city=vacancy["area"]["name"],
-                    experience=vacancy["experience"]["name"],
-                    requirements=vacancy["snippet"]["requirement"])
-                vacancies_list.append(temp)
-                vacancy_ids.add(vacancy["id"])
+            temp: HhVacancy = cls(
+                vacancy_id=vacancy["id"],
+                name=vacancy["name"],
+                link=vacancy["alternate_url"],
+                company_id=vacancy["employer"]["id"],
+                salary_from=vacancy["salary"]["from"] if vacancy["salary"] else 0,
+                salary_to=vacancy["salary"]["to"] if vacancy["salary"] else 0,
+                city=vacancy["area"]["name"],
+                experience=vacancy["experience"]["name"],
+                requirements=vacancy["snippet"]["requirement"])
+            vacancies_list.append(temp)
+
         return vacancies_list
 
     @property
     def salary_from(self) -> int:
         """Геттер зарплаты "от"."""
-
         return self.__salary_from
 
     @property
     def salary_to(self) -> int:
         """Геттер зарплаты "до"."""
-
         return self.__salary_to
