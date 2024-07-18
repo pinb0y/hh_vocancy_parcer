@@ -5,12 +5,18 @@ from src.classes.vacancy import HhVacancy
 
 
 class DbCreator:
-
-    def __init__(self, db_name, params):
+    """
+    Класс для создания базы данных postgres
+    """
+    def __init__(self, db_name: str, params: dict) -> None:
         self.__database_name = db_name
         self.__params = params
 
     def create_database(self) -> None:
+        """
+        Метод создает базу данных
+        :return: None
+        """
         conn = psycopg2.connect(dbname="postgres", **self.__params)
         conn.autocommit = True
 
@@ -20,7 +26,11 @@ class DbCreator:
 
         conn.close()
 
-    def create_tables(self):
+    def create_tables(self) -> None:
+        """
+        Метод создает шаблоны таблиц в базе данных
+        :return: None
+        """
         with psycopg2.connect(dbname=self.__database_name, **self.__params) as conn:
             with conn.cursor() as cursor:
                 cursor.execute("""
@@ -69,5 +79,4 @@ class DbCreator:
                         (vacancy.vacancy_id, vacancy.company_id, vacancy.name, vacancy.city, vacancy.link,
                          vacancy.salary_from, vacancy.salary_to, vacancy.requirements)
                     )
-
         conn.close()
