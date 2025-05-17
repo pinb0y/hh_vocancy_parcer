@@ -1,5 +1,5 @@
 ## Парсер вакансий  топовых компаний (по моему мнениею) с сайта HeadHunter.
-Создает базу данных postgres, сохраняет в нее данные о вокансиях и компаниях
+Создает базу данных postgres, сохраняет в нее данные о вакансиях и компаниях
 
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
 
